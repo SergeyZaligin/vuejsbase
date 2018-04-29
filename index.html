@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VueJS</title>
+    <style>
+        .circle{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #000;
+        }
+        .red{
+           background: red; 
+        }
+        .purple{
+            background: purple;
+        }
+        .yellow{
+            background: yellow;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+        <a :href="link">Ya.ru</a><br>
+        <input type="text" v-on:input="changeName">
+        <h1>Hello {{ name }}!!!</h1>
+        <p><strong>Count: </strong>{{ counter }}</p>
+        <p>{{ result() }}</p>
+        <p><strong>Computed result: </strong>{{ computedResult }}</p>
+        <button @click="increment">+</button>
+        <button @click="decrement">-</button>
+
+        <p><strong>Count2: </strong>{{ count2 }}</p>
+        <button @click="count2++">count2++</button>
+        <div 
+            class="circle"
+            @click="isActive = !isActive"
+            :class="{ 'red': isActive }"
+        ></div>
+        <div class="circle" :style="circleClasses"></div>
+        <input type="text" v-model="color">
+        <h3 v-if="isVisible">Hi! I am visible!!!</h3>
+        <h3 v-if="!isVisible">I am not visible...</h3>
+        <button @click="isVisible = !isVisible">hide/show</button>
+        <h3 v-if="type === 'a'">A</h3>
+        <h3 v-else-if="type === 'b'">B</h3>
+        <h3 v-else-if="type === 'c'">C</h3>
+        <h3 v-else="">not match</h3>
+        <hr>
+        <input type="text" v-model="type">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                name: 'Sergey',
+                counter: 0,
+                count2: 0,
+                link: 'https://yandex.ru/',
+                isActive: false,
+                color: 'pink',
+                isVisible: true,
+                type: 'a'
+            },
+            computed: {
+                circleClasses(){
+                    return {
+                        'background': this.color
+                    }
+                },
+                computedResult(){
+                    console.log('Func was call computed');
+                    return this.counter > 3 ? 'More than 3' : 'Less than 3';
+                }
+            },
+            methods:{
+                increment(){
+                    this.counter++;
+                },
+                decrement(){
+                    this.counter--;
+                },
+                changeName(event){
+                    this.name = event.target.value;
+                },
+                result(){
+                    console.log('Func was call');
+                    return this.counter > 3 ? 'More than 3' : 'Less than 3';
+                }
+            }, 
+            watch: {
+                counter: function() {
+                    console.log('Counter was inc');
+                }
+            }
+        })
+    </script>
+</body>
+</html>
